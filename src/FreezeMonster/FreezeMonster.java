@@ -3,6 +3,8 @@ package FreezeMonster;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 public class FreezeMonster extends JFrame {
+    public Commons commons = Commons.getInstance();
+
     public FreezeMonster() {
 
         initUI();
@@ -13,7 +15,7 @@ public class FreezeMonster extends JFrame {
         add(new Board());
 
         setTitle("Freeze Monster");
-        setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        setSize(commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);

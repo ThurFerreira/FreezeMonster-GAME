@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Commons {
     private static Commons instance;
+    
     private Commons(){}
 
     public static Commons getInstance(){

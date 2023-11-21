@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
 
+    public Commons commons = Commons.getInstance();
+
     private int width;
     private int height;
 
@@ -42,9 +44,9 @@ public class Player extends Sprite {
             x = 2;
         }
 
-        if (x >= Commons.BOARD_WIDTH - 2 * width) {
+        if (x >= commons.BOARD_WIDTH - 2 * width) {
 
-            x = Commons.BOARD_WIDTH - 2 * width;
+            x = commons.BOARD_WIDTH - 2 * width;
         }
 
         if (y <= 2) {
@@ -52,9 +54,9 @@ public class Player extends Sprite {
             y = 2;
         }
 
-        if (y >= Commons.BOARD_HEIGHT - 2 * height) {
+        if (y >= commons.BOARD_HEIGHT - 2 * height) {
 
-            y = Commons.BOARD_HEIGHT - 2 * height;
+            y = commons.BOARD_HEIGHT - 2 * height;
         }
     }
 
