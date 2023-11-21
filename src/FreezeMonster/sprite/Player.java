@@ -3,12 +3,15 @@ package FreezeMonster.sprite;
 import FreezeMonster.Commons;
 
 import javax.swing.ImageIcon;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
 
     private int width;
     private int height;
+    private int xLastMove = 2;
+    private int yLastMove = 2;
 
     public Player() {
 
@@ -16,9 +19,8 @@ public class Player extends Sprite {
     }
 
     private void initPlayer() {
-
         var playerImg = "src/images/woody.png";
-        var ii = new ImageIcon(playerImg);
+        var ii = new ImageIcon(new ImageIcon(playerImg).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
         width = ii.getImage().getWidth(null);
         height = ii.getImage().getHeight(null);
@@ -29,6 +31,7 @@ public class Player extends Sprite {
 
         int START_Y = 280;
         setY(START_Y);
+
     }
 
     public void act() {
@@ -65,21 +68,29 @@ public class Player extends Sprite {
         if (key == KeyEvent.VK_LEFT) {
 
             dx = -2;
+            xLastMove = dx;
+            yLastMove = 0;
         }
 
         if (key == KeyEvent.VK_RIGHT) {
 
             dx = 2;
-        }
-
-        if (key == KeyEvent.VK_DOWN) {
-
-            dy = -2;
+            xLastMove = dx;
+            yLastMove = 0;
         }
 
         if (key == KeyEvent.VK_UP) {
 
+            dy = -2;
+            yLastMove = dy;
+            xLastMove = 0;
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+
             dy = 2;
+            yLastMove = dy;
+            xLastMove = 0;
         }
     }
 
@@ -106,5 +117,13 @@ public class Player extends Sprite {
 
             dy = 0;
         }
+    }
+
+    public int getxLastMove(){
+        return xLastMove;
+    }
+
+    public int getyLastMove(){
+        return yLastMove;
     }
 }

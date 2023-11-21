@@ -1,37 +1,21 @@
 package FreezeMonster;
+public interface Commons {
 
-import java.util.ArrayList;
-import java.util.List;
+    int BOARD_WIDTH = 500;
+    int BOARD_HEIGHT = 500;
+    int BORDER_RIGHT = 40;
+    int BORDER_LEFT = 5;
+    int GROUND = 190;
 
-public class Commons {
-    private static Commons instance;
-    private Commons(){}
+    int BOMB_HEIGHT = 20;
 
-    public static Commons getInstance(){
-        if(instance == null)
-            instance = new Commons();
+    int MONSTER_HEIGHT = 12;
+    int MONSTER_WIDTH = 12;
+    int MONSTER_INIT_X = 150;
+    int MONSTER_INIT_Y = 5;
 
-        return instance;
-    }
-    public int MONSTER_QTD = 9;
-
-    public int BOARD_WIDTH = 716;
-    public int BOARD_HEIGHT = 700;
-    public int BORDER_RIGHT = 30;
-    public int BORDER_LEFT = 5;
-
-    public int GROUND = 290;
-    public int BOMB_HEIGHT = 20;
-
-    public int ALIEN_HEIGHT = 12;
-    public int ALIEN_WIDTH = 12;
-    public int ALIEN_INIT_X = 150;
-    public int ALIEN_INIT_Y = 5;
-
-    public int GO_DOWN = 15;
-    public int NUMBER_OF_ALIENS_TO_DESTROY = 24;
-    public int CHANCE = 5;
-    public int DELAY = 17;
-    public int PLAYER_WIDTH = 15;
-    public int PLAYER_HEIGHT = 10;
+    int NUMBER_OF_MONSTERS_TO_DESTROY = 9;
+    int DELAY = 17;
+    int PLAYER_WIDTH = 15;
+    int PLAYER_HEIGHT = 10;
 }
