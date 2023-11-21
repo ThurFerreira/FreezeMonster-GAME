@@ -1,9 +1,11 @@
 package FreezeMonster;
 
+import FreezeMonster.factory.EntityFactory;
 import FreezeMonster.sprite.Gosma;
 import FreezeMonster.sprite.Monster;
 import FreezeMonster.sprite.Player;
 import FreezeMonster.sprite.Ray;
+import FreezeMonster.sprite.Sprite;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -24,10 +26,12 @@ import java.util.Random;
 
 public class Board extends JPanel {
 
+    Commons commons = Commons.getInstance();
     private Dimension d;
     private List<Monster> monsters;
     private Player player;
     private Ray ray;
+    EntityFactory entityFactory = new EntityFactory();
 
     private int deaths = 0;
 
@@ -49,10 +53,10 @@ public class Board extends JPanel {
 
         addKeyListener(new TAdapter());
         setFocusable(true);
-        d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
-        setBackground(Color.getHSBColor(153, 55, 72));
+        d = new Dimension(commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
+        setBackground(Color.GREEN.darker());
 
-        timer = new Timer(Commons.DELAY, new GameCycle());
+        timer = new Timer(commons.DELAY, new GameCycle());
         timer.start();
 
         gameInit();
@@ -63,11 +67,11 @@ public class Board extends JPanel {
 
         monsters = new ArrayList<>();
 
-        String urlMonsterImg = "src/images/monster";
-
-        for (int i = 0; i < Commons.NUMBER_OF_MONSTERS_TO_DESTROY; i++) {
-            var monster = new Monster(Commons.MONSTER_INIT_X + 18, Commons.MONSTER_INIT_Y + 18, (urlMonsterImg + (i+1) + ".png"));
-            monsters.add(monster);
+        for (int i = 0; i < commons.NUMBER_OF_MONSTERS_TO_DESTROY; i++) {
+            Sprite newMobSprite = entityFactory.create("Monster");
+            
+            if(newMobSprite instanceof Monster) 
+                monsters.add((Monster) newMobSprite);
         }
 
         player = new Player();
@@ -163,26 +167,26 @@ public class Board extends JPanel {
     private void gameOver(Graphics g) {
 
         g.setColor(Color.black);
-        g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        g.fillRect(0, 0, commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
 
         g.setColor(new Color(0, 32, 48));
-        g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+        g.fillRect(50, commons.BOARD_WIDTH / 2 - 30, commons.BOARD_WIDTH - 100, 50);
         g.setColor(Color.white);
-        g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+        g.drawRect(50, commons.BOARD_WIDTH / 2 - 30, commons.BOARD_WIDTH - 100, 50);
 
         var small = new Font("Helvetica", Font.BOLD, 14);
         var fontMetrics = this.getFontMetrics(small);
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
-                Commons.BOARD_WIDTH / 2);
+        g.drawString(message, (commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
+                commons.BOARD_WIDTH / 2);
     }
 
     //metodo que atualiza as entidades, variaveis  e verifica colisoes
     private void update() {
 
-        if (deaths == Commons.NUMBER_OF_MONSTERS_TO_DESTROY) {
+        if (deaths == commons.NUMBER_OF_MONSTERS_TO_DESTROY) {
 
             inGame = false;
             timer.stop();
@@ -206,9 +210,9 @@ public class Board extends JPanel {
 
                 if (monster.isVisible() && !monster.isDying() && ray.isVisible()) {
                     if (rayX >= (monsterX)
-                            && rayX <= (monsterX + Commons.MONSTER_WIDTH)
+                            && rayX <= (monsterX + commons.MONSTER_WIDTH)
                             && rayY >= (monsterY)
-                            && rayY <= (monsterY + Commons.MONSTER_HEIGHT)) {
+                            && rayY <= (monsterY + commons.MONSTER_HEIGHT)) {
 
                         var ii = new ImageIcon(explImg);
                         monster.setImage(ii.getImage());
@@ -221,7 +225,7 @@ public class Board extends JPanel {
 
             //move o raio
 
-            if (rayY < 0 || rayY > Commons.BOARD_HEIGHT || rayX < 0 || rayX > Commons.BOARD_WIDTH) {
+            if (rayY < 0 || rayY > commons.BOARD_HEIGHT || rayX < 0 || rayX > commons.BOARD_WIDTH) {
                 ray.die();
             } else {
                 ray.move();
@@ -234,16 +238,16 @@ public class Board extends JPanel {
             int monsterX = monster.getX();
             int monsterY = monster.getY();
 
-            if (monsterX >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT) {
-                monster.setX(Commons.BOARD_WIDTH - Commons.BORDER_RIGHT);
+            if (monsterX >= commons.BOARD_WIDTH - commons.BORDER_RIGHT) {
+                monster.setX(commons.BOARD_WIDTH - commons.BORDER_RIGHT);
             }
 
-            if (monsterX <= Commons.BORDER_LEFT) {
-                monster.setX(Commons.BORDER_LEFT);
+            if (monsterX <= commons.BORDER_LEFT) {
+                monster.setX(commons.BORDER_LEFT);
             }
 
-            if (monsterY >= Commons.GROUND) {
-                monster.setY(Commons.GROUND);
+            if (monsterY >= commons.GROUND) {
+                monster.setY(commons.GROUND);
             }
 
             if (monsterY <= 5) {
@@ -298,9 +302,9 @@ public class Board extends JPanel {
             if (player.isVisible() && !gosma.isDestroyed()) {
 
                 if (gosmaX >= (playerX)
-                        && gosmaX <= (playerX + Commons.PLAYER_WIDTH)
+                        && gosmaX <= (playerX + commons.PLAYER_WIDTH)
                         && gosmaY >= (playerY)
-                        && gosmaY <= (playerY + Commons.PLAYER_HEIGHT)) {
+                        && gosmaY <= (playerY + commons.PLAYER_HEIGHT)) {
 
                     var ii = new ImageIcon(explImg);
                     player.setImage(ii.getImage());
@@ -314,9 +318,9 @@ public class Board extends JPanel {
 
                 gosma.mover();
 
-                if (gosma.getX() >= (Commons.BOARD_WIDTH - Commons.BORDER_RIGHT) ||
-                        gosma.getX() <= Commons.BORDER_LEFT ||
-                        gosma.getY() >= Commons.GROUND ||
+                if (gosma.getX() >= (commons.BOARD_WIDTH - commons.BORDER_RIGHT) ||
+                        gosma.getX() <= commons.BORDER_LEFT ||
+                        gosma.getY() >= commons.GROUND ||
                         gosma.getY() <= 5) {
                     gosma.setDestroyed(true);
                 }

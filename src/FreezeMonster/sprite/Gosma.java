@@ -9,7 +9,6 @@ public class Gosma extends Sprite {
     private boolean destroyed;
 
     public Gosma(int x, int y) {
-
         initGosma(x, y);
     }
 

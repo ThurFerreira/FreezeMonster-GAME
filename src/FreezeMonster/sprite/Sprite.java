@@ -2,7 +2,7 @@ package FreezeMonster.sprite;
 
 import java.awt.Image;
 
-public class Sprite implements Entity{
+public abstract class Sprite {
 
     private boolean visible;
     private Image image;
@@ -71,15 +71,5 @@ public class Sprite implements Entity{
     public boolean isDying() {
 
         return this.dying;
-    }
-
-    @Override
-    public Sprite clone() {
-        return new Sprite();
-    }
-
-    @Override
-    public Sprite create() {
-        return null;
     }
 }

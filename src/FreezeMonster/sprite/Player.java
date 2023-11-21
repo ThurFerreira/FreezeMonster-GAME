@@ -22,7 +22,7 @@ public class Player extends Sprite {
 
     private void initPlayer() {
         var playerImg = "src/images/woody.png";
-        var ii = new ImageIcon(new ImageIcon(playerImg).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+        var ii = new ImageIcon(new ImageIcon(playerImg).getImage().getScaledInstance(commons.PLAYER_WIDTH, commons.PLAYER_HEIGHT, Image.SCALE_SMOOTH));
 
         width = ii.getImage().getWidth(null);
         height = ii.getImage().getHeight(null);

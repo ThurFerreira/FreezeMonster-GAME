@@ -3,8 +3,6 @@ package FreezeMonster.sprite;
 import FreezeMonster.Commons;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import javax.swing.ImageIcon;
 
@@ -28,7 +26,7 @@ public class Monster extends Sprite {
 
         String url = "src/images/monster" + monsterType + ".png";
         //!!!! resize image, fazer resize depois manualmente
-        var ii = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+        var ii = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(commons.MONSTER_WIDTH, commons.MONSTER_HEIGHT, Image.SCALE_SMOOTH));
 
         setImage(ii.getImage());
     }
@@ -40,7 +38,6 @@ public class Monster extends Sprite {
     }
 
     public Gosma getGosma() {
-
         return gosma;
     }
 }
