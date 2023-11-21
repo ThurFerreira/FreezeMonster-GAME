@@ -26,6 +26,6 @@ public class EntityFactory implements Abstractfactory<Sprite>{
     }
 
     private int getMonsterSkin() {
-        return random.nextInt(commons.MONSTER_QTD);
+        return random.nextInt(commons.NUMBER_OF_MONSTERS_TO_DESTROY - 1) + 1; //numero de 1 ate NUMBER_OF_MONSTERS_TO_DESTROY
     }
 }

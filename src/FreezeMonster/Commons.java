@@ -15,7 +15,6 @@ public class Commons {
     }
 
     public int BOMB_HEIGHT = 20;
-    public int MONSTER_QTD = 9;
     public int BOARD_WIDTH = 500;
     public int BOARD_HEIGHT = 500;
     public int BORDER_RIGHT = 40;

@@ -88,12 +88,6 @@ public class Board extends JPanel {
 
                 g.drawImage(monster.getImage(), monster.getX(), monster.getY(), this);
             }
-
-            //!!!!Alterar como o monstro morre (deve ficar paralizado com outra imagem congelado)
-            if (monster.isDying()) {
-
-                monster.die();
-            }
         }
     }
 
@@ -214,17 +208,14 @@ public class Board extends JPanel {
                             && rayY >= (monsterY)
                             && rayY <= (monsterY + commons.MONSTER_HEIGHT)) {
 
-                        var ii = new ImageIcon(explImg);
-                        monster.setImage(ii.getImage());
-                        monster.setDying(true);
-                        deaths++;
                         ray.die();
+                        monster.die();
+                        deaths++;
                     }
                 }
             }
 
             //move o raio
-
             if (rayY < 0 || rayY > commons.BOARD_HEIGHT || rayX < 0 || rayX > commons.BOARD_WIDTH) {
                 ray.die();
             } else {
@@ -275,8 +266,6 @@ public class Board extends JPanel {
         }
 
         //gosmas
-        var generator = new Random();
-
         for (Monster monster : monsters) {
 
             Gosma gosma = monster.getGosma();

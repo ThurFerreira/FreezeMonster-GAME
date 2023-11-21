@@ -51,6 +51,6 @@ public class Monster extends Sprite {
         var ii = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(commons.MONSTER_WIDTH, commons.MONSTER_HEIGHT, Image.SCALE_SMOOTH));
         setImage(ii.getImage());
 
-        setDying(true);;
+        setDying(true);
     }
 }
