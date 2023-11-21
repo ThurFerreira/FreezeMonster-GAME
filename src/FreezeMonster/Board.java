@@ -1,6 +1,5 @@
 package FreezeMonster;
 
-import FreezeMonster.factory.EnemyFactory;
 import FreezeMonster.sprite.Gosma;
 import FreezeMonster.sprite.Monster;
 import FreezeMonster.sprite.Player;
@@ -24,12 +23,11 @@ import java.util.List;
 import java.util.Random;
 
 public class Board extends JPanel {
-    public Commons commons = Commons.getInstance();
+
     private Dimension d;
     private List<Monster> monsters;
     private Player player;
     private Ray ray;
-    EnemyFactory enemyFactory = new EnemyFactory();
 
     private int deaths = 0;
 
@@ -46,38 +44,39 @@ public class Board extends JPanel {
         gameInit();
     }
 
-    //!!comum em ambos jogos
     //ADD A KEY LISTENER, CREATE DIMENSION AND gameInit()
     private void initBoard() {
 
         addKeyListener(new TAdapter());
         setFocusable(true);
-        d = new Dimension(commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
+        d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
         setBackground(Color.getHSBColor(153, 55, 72));
 
-        timer = new Timer(commons.DELAY, new GameCycle());
+        timer = new Timer(Commons.DELAY, new GameCycle());
         timer.start();
 
         gameInit();
     }
 
-    //!!comum em ambos jogos
     //CREATES ENTITIES
     private void gameInit() {
 
         monsters = new ArrayList<>();
-        
-        for (int i = 1; i < 2; i++) {
-            Monster monster = (Monster) enemyFactory.create("Monster");
+
+        String urlMonsterImg = "src/images/monster";
+
+        for (int i = 0; i < Commons.NUMBER_OF_MONSTERS_TO_DESTROY; i++) {
+            var monster = new Monster(Commons.MONSTER_INIT_X + 18, Commons.MONSTER_INIT_Y + 18, (urlMonsterImg + (i+1) + ".png"));
             monsters.add(monster);
         }
 
         player = new Player();
         ray = new Ray();
+        ray.die();
     }
 
-
-    private void drawAliens(Graphics g) {
+    //plota os monstros
+    private void drawMonsters(Graphics g) {
 
         for (Monster monster : monsters) {
 
@@ -86,6 +85,7 @@ public class Board extends JPanel {
                 g.drawImage(monster.getImage(), monster.getX(), monster.getY(), this);
             }
 
+            //!!!!Alterar como o monstro morre (deve ficar paralizado com outra imagem congelado)
             if (monster.isDying()) {
 
                 monster.die();
@@ -93,6 +93,7 @@ public class Board extends JPanel {
         }
     }
 
+    //desenha jogador
     private void drawPlayer(Graphics g) {
 
         if (player.isVisible()) {
@@ -107,7 +108,7 @@ public class Board extends JPanel {
         }
     }
 
-    private void drawShot(Graphics g) {
+    private void drawRay(Graphics g) {
 
         if (ray.isVisible()) {
 
@@ -115,7 +116,7 @@ public class Board extends JPanel {
         }
     }
 
-    private void drawBombing(Graphics g) {
+    private void drawGosma(Graphics g) {
 
         for (Monster a : monsters) {
 
@@ -135,21 +136,16 @@ public class Board extends JPanel {
         doDrawing(g);
     }
 
+    //desenha todas as entidades
     private void doDrawing(Graphics g) {
 
-        g.setColor(Color.black);
-        g.fillRect(0, 0, d.width, d.height);
-        g.setColor(Color.green);
 
         if (inGame) {
 
-            g.drawLine(0, commons.GROUND,
-                    commons.BOARD_WIDTH, commons.GROUND);
-
-            drawAliens(g);
+            drawMonsters(g);
             drawPlayer(g);
-            drawShot(g);
-            drawBombing(g);
+            drawRay(g);
+            drawGosma(g);
 
         } else {
 
@@ -163,28 +159,30 @@ public class Board extends JPanel {
         Toolkit.getDefaultToolkit().sync();
     }
 
+    //tela de game over
     private void gameOver(Graphics g) {
 
         g.setColor(Color.black);
-        g.fillRect(0, 0, commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
+        g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 
         g.setColor(new Color(0, 32, 48));
-        g.fillRect(50, commons.BOARD_WIDTH / 2 - 30, commons.BOARD_WIDTH - 100, 50);
+        g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
         g.setColor(Color.white);
-        g.drawRect(50, commons.BOARD_WIDTH / 2 - 30, commons.BOARD_WIDTH - 100, 50);
+        g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
 
         var small = new Font("Helvetica", Font.BOLD, 14);
         var fontMetrics = this.getFontMetrics(small);
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(message, (commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
-                commons.BOARD_WIDTH / 2);
+        g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
+                Commons.BOARD_WIDTH / 2);
     }
 
+    //metodo que atualiza as entidades, variaveis  e verifica colisoes
     private void update() {
 
-        if (deaths == commons.NUMBER_OF_ALIENS_TO_DESTROY) {
+        if (deaths == Commons.NUMBER_OF_MONSTERS_TO_DESTROY) {
 
             inGame = false;
             timer.stop();
@@ -197,19 +195,20 @@ public class Board extends JPanel {
         // ray
         if (ray.isVisible()) {
 
-            int shotX = ray.getX();
-            int shotY = ray.getY();
+            int rayX = ray.getX();
+            int rayY = ray.getY();
 
+            //colisao raio com monstros
             for (Monster monster : monsters) {
 
-                int alienX = monster.getX();
-                int alienY = monster.getY();
+                int monsterX = monster.getX();
+                int monsterY = monster.getY();
 
-                if (monster.isVisible() && ray.isVisible()) {
-                    if (shotX >= (alienX)
-                            && shotX <= (alienX + commons.ALIEN_WIDTH)
-                            && shotY >= (alienY)
-                            && shotY <= (alienY + commons.ALIEN_HEIGHT)) {
+                if (monster.isVisible() && !monster.isDying() && ray.isVisible()) {
+                    if (rayX >= (monsterX)
+                            && rayX <= (monsterX + Commons.MONSTER_WIDTH)
+                            && rayY >= (monsterY)
+                            && rayY <= (monsterY + Commons.MONSTER_HEIGHT)) {
 
                         var ii = new ImageIcon(explImg);
                         monster.setImage(ii.getImage());
@@ -220,93 +219,88 @@ public class Board extends JPanel {
                 }
             }
 
-            int y = ray.getY();
-            y -= 4;
+            //move o raio
 
-            if (y < 0) {
+            if (rayY < 0 || rayY > Commons.BOARD_HEIGHT || rayX < 0 || rayX > Commons.BOARD_WIDTH) {
                 ray.die();
             } else {
-                ray.setY(y);
+                ray.move();
             }
         }
 
-        // monsters
-
+        //mantem os monstros dentro do board
         for (Monster monster : monsters) {
 
-            int x = monster.getX();
+            int monsterX = monster.getX();
+            int monsterY = monster.getY();
 
-//            if (x >= commons.BOARD_WIDTH - commons.BORDER_RIGHT && direction != -1) {
-//
-//                direction = -1;
-//
-//                Iterator<Monster> i1 = monsters.iterator();
-//
-//                while (i1.hasNext()) {
-//
-//                    Monster a2 = i1.next();
-//                    a2.setY(a2.getY() + commons.GO_DOWN);
-//                }
-//            }
-//
-//            if (x <= commons.BORDER_LEFT && direction != 1) {
-//
-//                direction = 1;
-//
-//                Iterator<Monster> i2 = monsters.iterator();
-//
-//                while (i2.hasNext()) {
-//
-//                    Monster a = i2.next();
-//                    a.setY(a.getY() + commons.GO_DOWN);
-//                }
-//            }
+            if (monsterX >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT) {
+                monster.setX(Commons.BOARD_WIDTH - Commons.BORDER_RIGHT);
+            }
+
+            if (monsterX <= Commons.BORDER_LEFT) {
+                monster.setX(Commons.BORDER_LEFT);
+            }
+
+            if (monsterY >= Commons.GROUND) {
+                monster.setY(Commons.GROUND);
+            }
+
+            if (monsterY <= 5) {
+                monster.setY(5);
+            }
         }
 
+        //movimentacao dos monstros
         Iterator<Monster> it = monsters.iterator();
-
         while (it.hasNext()) {
 
             Monster monster = it.next();
 
-            //MOVIMENTACAO DOS MONSTROS
             var generator = new Random();
+
             int dx = generator.nextInt(3) - 1;
-            dx *= 2;
+            dx *= 1;
             int dy = generator.nextInt(3) - 1;
-            dy *= 2;
+            dy *= 1;
 
             if (monster.isVisible()) {
                 monster.act(dx, dy);
             }
+
+            if (monster.isVisible() && !monster.isDying()) {
+                monster.act(dx, dy);
+            }
         }
 
-        // bombs
+        //gosmas
         var generator = new Random();
 
         for (Monster monster : monsters) {
 
-            int ray = generator.nextInt(15);
             Gosma gosma = monster.getGosma();
 
-            if (ray == commons.CHANCE && monster.isVisible() && gosma.isDestroyed()) {
+            //inicia gosma na posicao do monstro se estiver destruida
+            if (monster.isVisible() && gosma.isDestroyed()) {
 
-                gosma.setDestroyed(false);
                 gosma.setX(monster.getX());
                 gosma.setY(monster.getY());
+                gosma.setDestroyed(false);
             }
 
-            int bombX = gosma.getX();
-            int bombY = gosma.getY();
+            //pega coordenada da gosma
+            int gosmaX = gosma.getX();
+            int gosmaY = gosma.getY();
             int playerX = player.getX();
             int playerY = player.getY();
 
+            //colisao player com gosma
             if (player.isVisible() && !gosma.isDestroyed()) {
 
-                if (bombX >= (playerX)
-                        && bombX <= (playerX + commons.PLAYER_WIDTH)
-                        && bombY >= (playerY)
-                        && bombY <= (playerY + commons.PLAYER_HEIGHT)) {
+                if (gosmaX >= (playerX)
+                        && gosmaX <= (playerX + Commons.PLAYER_WIDTH)
+                        && gosmaY >= (playerY)
+                        && gosmaY <= (playerY + Commons.PLAYER_HEIGHT)) {
 
                     var ii = new ImageIcon(explImg);
                     player.setImage(ii.getImage());
@@ -315,12 +309,15 @@ public class Board extends JPanel {
                 }
             }
 
+            //movimenta a gosma e verifica se saiu do quadro para destrui-la
             if (!gosma.isDestroyed()) {
 
-                gosma.setY(gosma.getY() + 1);
+                gosma.mover();
 
-                if (gosma.getY() >= commons.GROUND - commons.BOMB_HEIGHT) {
-
+                if (gosma.getX() >= (Commons.BOARD_WIDTH - Commons.BORDER_RIGHT) ||
+                        gosma.getX() <= Commons.BORDER_LEFT ||
+                        gosma.getY() >= Commons.GROUND ||
+                        gosma.getY() <= 5) {
                     gosma.setDestroyed(true);
                 }
             }
@@ -359,14 +356,14 @@ public class Board extends JPanel {
             int y = player.getY();
 
             int key = e.getKeyCode();
-
+            //efetuando o disparo do raio
             if (key == KeyEvent.VK_SPACE) {
-
+                System.out.println("apertou espaço");
                 if (inGame) {
 
                     if (!ray.isVisible()) {
 
-                        ray = new Ray(x, y);
+                        ray = new Ray(x, y, player.getxLastMove(), player.getyLastMove());
                     }
                 }
             }
