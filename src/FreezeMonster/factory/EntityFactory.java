@@ -11,15 +11,7 @@ import FreezeMonster.sprite.Sprite;
 public class EntityFactory implements Abstractfactory<Sprite>{
     public Commons commons = Commons.getInstance();
     Random random = new Random();
-
-    Map<String, Sprite> entityPrototype = new HashMap<>(){{
-        put("Monster", new Monster(getMonsterSkin()));
-        put("Ray", new Ray());
-        put("Player", new Player());
-
-    }};
     
-
     @Override
     public Sprite create(String entityType) {
         switch (entityType) {
