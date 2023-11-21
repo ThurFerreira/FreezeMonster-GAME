@@ -14,10 +14,10 @@ public class Monster extends Sprite {
 
     public Monster(int monsterType) {
         this.monsterType = monsterType;
-        initAlien();
+        initMonster();
     }
 
-    private void initAlien() {
+    private void initMonster() {
         Random random = new Random();
         this.x = random.nextInt(commons.BOARD_WIDTH);
         this.y = random.nextInt(commons.BOARD_HEIGHT);
@@ -25,7 +25,6 @@ public class Monster extends Sprite {
         gosma = new Gosma(x, y);
 
         String url = "src/images/monster" + monsterType + ".png";
-        //!!!! resize image, fazer resize depois manualmente
         var ii = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(commons.MONSTER_WIDTH, commons.MONSTER_HEIGHT, Image.SCALE_SMOOTH));
 
         setImage(ii.getImage());
@@ -39,5 +38,19 @@ public class Monster extends Sprite {
 
     public Gosma getGosma() {
         return gosma;
+    }
+
+    @Override
+    public void die(){
+        freeze();
+    }
+
+    public void freeze(){
+        String url = "src/images/monster" + monsterType + "bg.png";
+        //!!!! resize image, fazer resize depois manualmente
+        var ii = new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(commons.MONSTER_WIDTH, commons.MONSTER_HEIGHT, Image.SCALE_SMOOTH));
+        setImage(ii.getImage());
+
+        setDying(true);;
     }
 }

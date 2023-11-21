@@ -268,10 +268,7 @@ public class Board extends JPanel {
             int dy = generator.nextInt(3) - 1;
             dy *= 1;
 
-            if (monster.isVisible()) {
-                monster.act(dx, dy);
-            }
-
+            //se o monstro estiver visivel e nao estiver morrendo ele se movimenta
             if (monster.isVisible() && !monster.isDying()) {
                 monster.act(dx, dy);
             }
@@ -285,7 +282,7 @@ public class Board extends JPanel {
             Gosma gosma = monster.getGosma();
 
             //inicia gosma na posicao do monstro se estiver destruida
-            if (monster.isVisible() && gosma.isDestroyed()) {
+            if (monster.isVisible() && gosma.isDestroyed() && !monster.isDying()) {
 
                 gosma.setX(monster.getX());
                 gosma.setY(monster.getY());
