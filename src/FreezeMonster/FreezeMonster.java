@@ -1,33 +1,35 @@
 package FreezeMonster;
 
 import java.awt.EventQueue;
-import javax.swing.JFrame;
-public class FreezeMonster extends JFrame {
+
+import FreezeMonster.framework.MainFrame;
+public class FreezeMonster extends MainFrame {
     public Settings commons = Settings.getInstance();
 
-    public FreezeMonster() {
-
-        initUI();
+    public FreezeMonster(String title) {
+        setWindowTitle(title);
+        setTitle(title);
     }
 
     private void initUI() {
 
         add(new Board());
-
-        setTitle("Freeze Monster");
         setSize(commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
     }
 
-    public static void main(String[] args) {
+    @Override
+    protected Board createBoard() {
+        return new Board();
+    }
 
+    @Override
+    public void start() {
         EventQueue.invokeLater(() -> {
-
-            var ex = new FreezeMonster();
-            ex.setVisible(true);
+            initUI();
+            this.setVisible(true);
         });
     }
 }

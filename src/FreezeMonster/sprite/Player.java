@@ -17,7 +17,6 @@ public class Player extends Sprite {
     private int yLastMove = 2;
 
     public Player() {
-
         initPlayer();
     }
 

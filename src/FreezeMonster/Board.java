@@ -41,7 +41,6 @@ public class Board extends JPanel {
 
 
     public Board() { //AbstractBoard
-
         initBoard();
         gameInit();
     }
@@ -56,8 +55,6 @@ public class Board extends JPanel {
 
         timer = new Timer(commons.DELAY, new GameCycle());
         timer.start();
-
-        gameInit();
     }
 
     //CREATES ENTITIES
@@ -311,7 +308,6 @@ public class Board extends JPanel {
     }
 
     private void doGameCycle() { //AbstracBoard
-
         update();
         repaint();
     }
@@ -320,7 +316,6 @@ public class Board extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             doGameCycle();
         }
     }

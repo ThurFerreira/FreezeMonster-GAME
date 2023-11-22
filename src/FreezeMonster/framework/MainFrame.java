@@ -2,17 +2,21 @@ package FreezeMonster.framework;
 
 import javax.swing.*;
 
+import FreezeMonster.Board;
+import FreezeMonster.Settings;
+
 public abstract class MainFrame extends JFrame  {
+    Settings set = Settings.getInstance();
 
     // hotspot
-    protected abstract AbstractBoard createBoard();
+    protected abstract Board createBoard();
+    public abstract void start();
 
-    public MainFrame(String t) {
+    public MainFrame() {
 
         add(createBoard());
 
-        setTitle(t);
-        setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        setSize(set.BOARD_WIDTH, set.BOARD_HEIGHT);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
@@ -20,13 +24,7 @@ public abstract class MainFrame extends JFrame  {
         setVisible(true);
     }
 
-
-//    public static void main(String[] args) {
-//
-//        EventQueue.invokeLater(() -> {
-//
-//            MainFrameExtended ex = new MainFrameExtended();
-//        });
-//    }
-
+    public void setWindowTitle(String title){
+        setTitle(title);
+    }
 }

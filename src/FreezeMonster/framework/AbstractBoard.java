@@ -77,12 +77,12 @@ public abstract class AbstractBoard extends JPanel {
         g.drawString(message, (d.width - fontMetrics.stringWidth(message)) / 2, d.width / 2);
     }
 
-    private void update() {
-        gameLogic();
-    }
+//    private void update() {
+//        gameLogic();
+//    }
 
     //chamada pelo update e deve ser implementada
-    protected abstract void gameLogic();
+    protected abstract void update();
 
     private void doGameCycle() {
         update();
