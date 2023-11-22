@@ -39,39 +39,39 @@ public class Board extends JPanel {
 
     private Timer timer; //AbstractBoard
 
-
     public Board() { //AbstractBoard
         initBoard();
         gameInit();
     }
 
-    //ADD A KEY LISTENER, CREATE DIMENSION AND gameInit()
+    //ADD A KEY LISTENER, CREATE DIMENSION AND ETITIES
     private void initBoard() { //AbstractBoard
-
         addKeyListener(new TAdapter());
         setFocusable(true);
         d = new Dimension(commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
         setBackground(Color.GREEN.darker());
-
-        timer = new Timer(commons.DELAY, new GameCycle());
-        timer.start();
-    }
-
-    //CREATES ENTITIES
-    private void gameInit() { //AbstractBoard
-
+    
         monsters = new ArrayList<>();
-
+    
         for (int i = 0; i < commons.NUMBER_OF_MONSTERS_TO_DESTROY; i++) {
             Sprite newMobSprite = entityFactory.create("Monster");
             
             if(newMobSprite instanceof Monster) 
                 monsters.add((Monster) newMobSprite);
         }
-
-        player = new Player();
+    
+        Sprite newPlayerSprite = entityFactory.create("Player");
+            
+        if(newPlayerSprite instanceof Player) 
+            player = ((Player) newPlayerSprite);
         ray = new Ray();
         ray.die();
+    }
+
+    //Start gameCycle
+    private void gameInit() { //AbstractBoard
+        timer = new Timer(commons.DELAY, new GameCycle());
+        timer.start();
     }
 
     //plota os monstros
@@ -184,7 +184,7 @@ public class Board extends JPanel {
 
         // player
         player.act();
-
+        
         // ray
         if (ray.isVisible()) {
 
@@ -324,13 +324,12 @@ public class Board extends JPanel {
 
         @Override
         public void keyReleased(KeyEvent e) {
-
+            
             player.keyReleased(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-
             player.keyPressed(e);
 
             int x = player.getX();

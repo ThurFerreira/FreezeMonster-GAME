@@ -33,11 +33,9 @@ public class Player extends Sprite {
 
         int START_Y = 280;
         setY(START_Y);
-
     }
 
     public void act() {
-
         x += dx;
 
         y += dy;
@@ -94,10 +92,12 @@ public class Player extends Sprite {
             yLastMove = dy;
             xLastMove = 0;
         }
+
+        System.out.println("Values of dx: " + dx + " and dy: " + dy);
     }
 
     public void keyReleased(KeyEvent e) {
-
+        System.out.println("called player keyReleased");
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
@@ -119,6 +119,8 @@ public class Player extends Sprite {
 
             dy = 0;
         }
+
+        System.out.println("Values of dx: " + dx + " and dy: " + dy);
     }
 
     public int getxLastMove(){

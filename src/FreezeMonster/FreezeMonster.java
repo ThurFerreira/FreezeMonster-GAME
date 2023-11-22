@@ -11,15 +11,6 @@ public class FreezeMonster extends MainFrame {
         setTitle(title);
     }
 
-    private void initUI() {
-
-        add(new Board());
-        setSize(commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
-        setLocationRelativeTo(null);
-    }
-
     @Override
     protected Board createBoard() {
         return new Board();
@@ -28,7 +19,6 @@ public class FreezeMonster extends MainFrame {
     @Override
     public void start() {
         EventQueue.invokeLater(() -> {
-            initUI();
             this.setVisible(true);
         });
     }

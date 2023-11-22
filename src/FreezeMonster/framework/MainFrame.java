@@ -13,18 +13,19 @@ public abstract class MainFrame extends JFrame  {
     public abstract void start();
 
     public MainFrame() {
-
-        add(createBoard());
-
-        setSize(set.BOARD_WIDTH, set.BOARD_HEIGHT);
-
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setVisible(true);
+        initUI();
     }
 
     public void setWindowTitle(String title){
         setTitle(title);
+    }
+
+     private void initUI() {
+
+        add(createBoard());
+        setSize(set.BOARD_WIDTH, set.BOARD_HEIGHT);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 }
