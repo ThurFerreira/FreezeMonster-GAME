@@ -1,7 +1,7 @@
 package FreezeMonster.sprite;
 
 import FreezeMonster.Settings;
-import FreezeMonster.framework.BasicPlayer;
+import framework.BasicPlayer;
 
 import javax.swing.ImageIcon;
 import java.awt.*;

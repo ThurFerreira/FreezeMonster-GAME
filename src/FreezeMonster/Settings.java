@@ -1,6 +1,6 @@
 package FreezeMonster;
 
-import FreezeMonster.framework.FrameSettings;
+import framework.FrameSettings;
 
 public class Settings implements FrameSettings {
     private static Settings instance;

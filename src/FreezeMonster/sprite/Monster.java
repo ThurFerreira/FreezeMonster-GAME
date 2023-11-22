@@ -1,7 +1,7 @@
 package FreezeMonster.sprite;
 
 import FreezeMonster.Settings;
-import FreezeMonster.framework.Sprite;
+import framework.Sprite;
 
 import java.awt.*;
 import java.util.Random;

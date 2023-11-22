@@ -2,7 +2,7 @@ package FreezeMonster;
 
 import java.awt.EventQueue;
 
-import FreezeMonster.framework.MainFrame;
+import framework.MainFrame;
 public class FreezeMonster extends MainFrame {
     public Settings commons = Settings.getInstance();
 

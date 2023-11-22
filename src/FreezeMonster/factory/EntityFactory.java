@@ -3,11 +3,11 @@ package FreezeMonster.factory;
 import java.util.*;
 
 import FreezeMonster.Settings;
-import FreezeMonster.framework.factory.Abstractfactory;
+import framework.factory.Abstractfactory;
 import FreezeMonster.sprite.Monster;
 import FreezeMonster.sprite.Player;
 import FreezeMonster.sprite.Ray;
-import FreezeMonster.framework.Sprite;
+import framework.Sprite;
 
 public class EntityFactory implements Abstractfactory<Sprite> {
     public Settings commons = Settings.getInstance();

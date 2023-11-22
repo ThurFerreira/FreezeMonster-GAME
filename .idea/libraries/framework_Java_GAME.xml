@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="framework-Java-GAME">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/FreezeMonster/lib/framework-Java-GAME.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

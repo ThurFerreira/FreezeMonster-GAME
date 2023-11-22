@@ -5,8 +5,9 @@ import FreezeMonster.sprite.Gosma;
 import FreezeMonster.sprite.Monster;
 import FreezeMonster.sprite.Player;
 import FreezeMonster.sprite.Ray;
-import FreezeMonster.framework.AbstractBoard;
-import FreezeMonster.framework.Sprite;
+
+import framework.AbstractBoard;
+import framework.Sprite;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
