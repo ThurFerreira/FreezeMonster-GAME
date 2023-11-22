@@ -3,7 +3,7 @@ package FreezeMonster;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 public class FreezeMonster extends JFrame {
-    public Commons commons = Commons.getInstance();
+    public Settings commons = Settings.getInstance();
 
     public FreezeMonster() {
 

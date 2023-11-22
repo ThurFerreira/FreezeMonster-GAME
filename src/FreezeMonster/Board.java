@@ -5,9 +5,8 @@ import FreezeMonster.sprite.Gosma;
 import FreezeMonster.sprite.Monster;
 import FreezeMonster.sprite.Player;
 import FreezeMonster.sprite.Ray;
-import FreezeMonster.sprite.Sprite;
+import FreezeMonster.framework.Sprite;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.Color;
@@ -26,30 +25,29 @@ import java.util.Random;
 
 public class Board extends JPanel {
 
-    Commons commons = Commons.getInstance();
-    private Dimension d;
-    private List<Monster> monsters;
-    private Player player;
+    Settings commons = Settings.getInstance();
+    private Dimension d; //AbstractBoard
+    private List<Monster> monsters; //AbstractBoard SUPER
+    private Player player; //AbstractBoard
     private Ray ray;
-    EntityFactory entityFactory = new EntityFactory();
+    EntityFactory entityFactory = new EntityFactory(); //AbstractBoard SUPER
 
-    private int deaths = 0;
+    private int deaths = 0; //AbstractBoard
 
-    private boolean inGame = true;
-    private String explImg = "src/images/explosion.png";
-    private String message = "Game Over";
+    private boolean inGame = true; //AbstractBoard
+    private String message = "Game Over"; //AbstractBoard
 
-    private Timer timer;
+    private Timer timer; //AbstractBoard
 
 
-    public Board() {
+    public Board() { //AbstractBoard
 
         initBoard();
         gameInit();
     }
 
     //ADD A KEY LISTENER, CREATE DIMENSION AND gameInit()
-    private void initBoard() {
+    private void initBoard() { //AbstractBoard
 
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -63,7 +61,7 @@ public class Board extends JPanel {
     }
 
     //CREATES ENTITIES
-    private void gameInit() {
+    private void gameInit() { //AbstractBoard
 
         monsters = new ArrayList<>();
 
@@ -80,7 +78,7 @@ public class Board extends JPanel {
     }
 
     //plota os monstros
-    private void drawMonsters(Graphics g) {
+    private void drawMonsters(Graphics g) { 
 
         for (Monster monster : monsters) {
 
@@ -128,14 +126,14 @@ public class Board extends JPanel {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) { //AbstracBoard
         super.paintComponent(g);
 
         doDrawing(g);
     }
 
     //desenha todas as entidades
-    private void doDrawing(Graphics g) {
+    private void doDrawing(Graphics g) { //AbstracBoard
 
 
         if (inGame) {
@@ -158,7 +156,7 @@ public class Board extends JPanel {
     }
 
     //tela de game over
-    private void gameOver(Graphics g) {
+    private void gameOver(Graphics g) { //AbstracBoard
 
         g.setColor(Color.black);
         g.fillRect(0, 0, commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
@@ -292,8 +290,6 @@ public class Board extends JPanel {
                         && gosmaY >= (playerY)
                         && gosmaY <= (playerY + commons.PLAYER_HEIGHT)) {
 
-                    var ii = new ImageIcon(explImg);
-                    player.setImage(ii.getImage());
                     player.setDying(true);
                     gosma.setDestroyed(true);
                 }
@@ -314,13 +310,13 @@ public class Board extends JPanel {
         }
     }
 
-    private void doGameCycle() {
+    private void doGameCycle() { //AbstracBoard
 
         update();
         repaint();
     }
 
-    private class GameCycle implements ActionListener {
+    private class GameCycle implements ActionListener { //AbstracBoard
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -329,7 +325,7 @@ public class Board extends JPanel {
         }
     }
 
-    private class TAdapter extends KeyAdapter {
+    private class TAdapter extends KeyAdapter { //AbstracBoard
 
         @Override
         public void keyReleased(KeyEvent e) {

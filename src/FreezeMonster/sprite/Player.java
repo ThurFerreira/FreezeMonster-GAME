@@ -1,6 +1,7 @@
 package FreezeMonster.sprite;
 
-import FreezeMonster.Commons;
+import FreezeMonster.Settings;
+import FreezeMonster.framework.Sprite;
 
 import javax.swing.ImageIcon;
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
 
-    public Commons commons = Commons.getInstance();
+    public Settings commons = Settings.getInstance();
 
     private int width;
     private int height;

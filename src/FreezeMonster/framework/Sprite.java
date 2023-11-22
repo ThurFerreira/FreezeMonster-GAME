@@ -1,4 +1,4 @@
-package FreezeMonster.sprite;
+package FreezeMonster.framework;
 
 import java.awt.Image;
 
@@ -8,13 +8,12 @@ public abstract class Sprite {
     private Image image;
     private boolean dying;
 
-    int x;
-    int y;
-    int dx;
-    int dy;
+    public int x;
+    public int y;
+    public int dx;
+    public int dy;
 
     public Sprite() {
-
         visible = true;
     }
 

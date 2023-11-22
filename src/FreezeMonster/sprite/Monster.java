@@ -1,13 +1,14 @@
 package FreezeMonster.sprite;
 
-import FreezeMonster.Commons;
+import FreezeMonster.Settings;
+import FreezeMonster.framework.Sprite;
 
 import java.awt.*;
 import java.util.Random;
 import javax.swing.ImageIcon;
 
 public class Monster extends Sprite {
-    public Commons commons = Commons.getInstance();
+    public Settings commons = Settings.getInstance();
     private int monsterType;
 
     private Gosma gosma;

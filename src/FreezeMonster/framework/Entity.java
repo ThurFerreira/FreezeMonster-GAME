@@ -1,4 +1,4 @@
-package FreezeMonster.sprite;
+package FreezeMonster.framework;
 
 public interface Entity {
     Sprite clone();
