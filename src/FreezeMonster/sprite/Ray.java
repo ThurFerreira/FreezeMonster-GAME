@@ -14,7 +14,6 @@ public class Ray extends Sprite {
         this.dx = dx;
         this.dy = dy;
 
-        System.out.println("Ray iniciado com os valores: dx" + this.dx +" dy" + this.dy+" x"+x + " y"+ y);
         initShot(x, y);
     }
 

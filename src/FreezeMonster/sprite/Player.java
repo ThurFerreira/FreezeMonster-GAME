@@ -1,13 +1,13 @@
 package FreezeMonster.sprite;
 
 import FreezeMonster.Settings;
-import FreezeMonster.framework.Sprite;
+import FreezeMonster.framework.BasicPlayer;
 
 import javax.swing.ImageIcon;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class Player extends Sprite {
+public class Player extends BasicPlayer {
 
     public Settings commons = Settings.getInstance();
 
@@ -61,6 +61,7 @@ public class Player extends Sprite {
         }
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
@@ -92,12 +93,10 @@ public class Player extends Sprite {
             yLastMove = dy;
             xLastMove = 0;
         }
-
-        System.out.println("Values of dx: " + dx + " and dy: " + dy);
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("called player keyReleased");
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
@@ -119,8 +118,6 @@ public class Player extends Sprite {
 
             dy = 0;
         }
-
-        System.out.println("Values of dx: " + dx + " and dy: " + dy);
     }
 
     public int getxLastMove(){

@@ -5,7 +5,6 @@ import FreezeMonster.sprite.Gosma;
 import FreezeMonster.sprite.Monster;
 import FreezeMonster.sprite.Player;
 import FreezeMonster.sprite.Ray;
-import FreezeMonster.framework.AbstractBoard;
 import FreezeMonster.framework.Sprite;
 
 import javax.swing.JPanel;
@@ -24,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Board extends AbstractBoard {
+public class BoardOld extends JPanel {
 
     Settings commons = Settings.getInstance();
     private Dimension d; //AbstractBoard
@@ -33,19 +32,20 @@ public class Board extends AbstractBoard {
     private Ray ray;
     EntityFactory entityFactory = new EntityFactory(); //AbstractBoard SUPER
 
+    private int deaths = 0; //AbstractBoard
+
     private boolean inGame = true; //AbstractBoard
     private String message = "Game Over"; //AbstractBoard
 
     private Timer timer; //AbstractBoard
 
-    public Board() { //AbstractBoard
+    public BoardOld() { //AbstractBoard
         initBoard();
         gameInit();
     }
 
     //LISTENER, CREATE ETITIES
-    @Override
-    protected void initBoard() { //AbstractBoard
+    private void initBoard() { //AbstractBoard
         monsters = new ArrayList<>();
     
         for (int i = 0; i < commons.NUMBER_OF_MONSTERS_TO_DESTROY; i++) {
@@ -64,17 +64,19 @@ public class Board extends AbstractBoard {
     }
 
     //Start gameCycle
-    // private void gameInit() { //AbstractBoard
-    //     addKeyListener(new TAdapter());
-    //     setFocusable(true);
-    //     d = new Dimension(commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
+    private void gameInit() { //AbstractBoard
+        addKeyListener(new TAdapter());
+        setFocusable(true);
+        d = new Dimension(commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
         
-    //     setBackground(Color.GREEN.darker());
-    //     timer = new Timer(commons.DELAY, new GameCycle());
-    //     timer.start();
-    // }
+        setBackground(Color.GREEN.darker());
+        timer = new Timer(commons.DELAY, new GameCycle());
+        timer.start();
+    }
 
+    //plota os monstros
     private void drawMonsters(Graphics g) { 
+
         for (Monster monster : monsters) {
 
             if (monster.isVisible()) {
@@ -120,18 +122,58 @@ public class Board extends AbstractBoard {
         }
     }
 
-    //desenha todas as entidades
     @Override
-    protected void doDrawing(Graphics g) { //AbstracBoard
+    public void paintComponent(Graphics g) { //AbstracBoard
+        super.paintComponent(g);
+
+        doDrawing(g);
+    }
+
+    //desenha todas as entidades
+    private void doDrawing(Graphics g) { //AbstracBoard
+
+
+        if (inGame) {
+
             drawMonsters(g);
             drawPlayer(g);
             drawRay(g);
             drawGosma(g);
+
+        } else {
+
+            if (timer.isRunning()) {
+                timer.stop();
+            }
+
+            gameOver(g);
+        }
+
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    //tela de game over
+    private void gameOver(Graphics g) { //AbstracBoard
+
+        g.setColor(Color.black);
+        g.fillRect(0, 0, commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
+
+        g.setColor(new Color(0, 32, 48));
+        g.fillRect(50, commons.BOARD_WIDTH / 2 - 30, commons.BOARD_WIDTH - 100, 50);
+        g.setColor(Color.white);
+        g.drawRect(50, commons.BOARD_WIDTH / 2 - 30, commons.BOARD_WIDTH - 100, 50);
+
+        var small = new Font("Helvetica", Font.BOLD, 14);
+        var fontMetrics = this.getFontMetrics(small);
+
+        g.setColor(Color.white);
+        g.setFont(small);
+        g.drawString(message, (commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
+                commons.BOARD_WIDTH / 2);
     }
 
     //metodo que atualiza as entidades, variaveis  e verifica colisoes
-    @Override
-    protected void update() {
+    private void update() {
 
         if (deaths == commons.NUMBER_OF_MONSTERS_TO_DESTROY) {
 
@@ -265,31 +307,46 @@ public class Board extends AbstractBoard {
         }
     }
 
-    
+    private void doGameCycle() { //AbstracBoard
+        update();
+        repaint();
+    }
 
-    @Override
-    protected void ControlsKeyPressed(KeyEvent e) {
-        player.keyPressed(e);
-        
-        int x = player.getX();
-        int y = player.getY();
+    private class GameCycle implements ActionListener { //AbstracBoard
 
-        int key = e.getKeyCode();
-        //efetuando o disparo do raio
-        if (key == KeyEvent.VK_SPACE) {
-            if (inGame) {
-
-                if (!ray.isVisible()) {
-
-                    ray = new Ray(x, y, player.getxLastMove(), player.getyLastMove());
-                }
-            }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            doGameCycle();
         }
     }
 
-    @Override
-    protected void ControlsKeyRealeased(KeyEvent e) {
-        player.keyReleased(e);
+    private class TAdapter extends KeyAdapter { //AbstracBoard
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            
+            player.keyReleased(e);
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            player.keyPressed(e);
+
+            int x = player.getX();
+            int y = player.getY();
+
+            int key = e.getKeyCode();
+            //efetuando o disparo do raio
+            if (key == KeyEvent.VK_SPACE) {
+                if (inGame) {
+
+                    if (!ray.isVisible()) {
+
+                        ray = new Ray(x, y, player.getxLastMove(), player.getyLastMove());
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -20,7 +20,7 @@ public class Settings implements FrameSettings {
     public int GROUND = BOARD_HEIGHT - 60;
     public int MONSTER_HEIGHT = 30;
     public int MONSTER_WIDTH = 30;
-    public int NUMBER_OF_MONSTERS_TO_DESTROY = 20;
+    public int NUMBER_OF_MONSTERS_TO_DESTROY = 2;
     public int PLAYER_WIDTH = 20;
     public int PLAYER_HEIGHT = 30;
 }

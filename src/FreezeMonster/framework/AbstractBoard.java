@@ -4,7 +4,7 @@ import javax.swing.*;
 
 import FreezeMonster.Settings;
 import FreezeMonster.framework.FrameSettings;
-import FreezeMonster.framework.Player;
+import FreezeMonster.framework.BasicPlayer;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,30 +17,28 @@ import java.util.List;
 public abstract class AbstractBoard extends JPanel {
 
     private Dimension d;
-    private List<Sprite> sprites;
-    private Player player;
 
-    private int deaths = 0;
+    protected int deaths = 0;
     private boolean inGame = true;
     private String message = "Game Over";
     private Timer timer;
 
-    //funcao que cria configs iniciais e chama gameInit()
-    public void initBoard(){
+    //funcao que cria entidades
+    protected abstract void initBoard();
+
+    //instancia o array de sprites, player, etc
+    public void gameInit() { //AbstractBoard
         addKeyListener(new TAdapter());
         setFocusable(true);
         d = new Dimension(FrameSettings.BOARD_WIDTH, FrameSettings.BOARD_HEIGHT);
-        setBackground(Color.black);
-
+        
+        setBackground(Color.GREEN.darker());
         timer = new Timer(FrameSettings.DELAY, new GameCycle());
         timer.start();
-
-        gameInit();
     }
-
-    //instancia o array de sprites, player, etc
-    public abstract void gameInit();
-
+    
+    //implementar "doDrawings" para desenhar cada sprite
+    protected abstract void doDrawing(Graphics g);
     @Override //controla interface e chama doDrawing()
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -59,8 +57,6 @@ public abstract class AbstractBoard extends JPanel {
 
         Toolkit.getDefaultToolkit().sync();
     }
-    //implementar "doDrawings" para desenhar cada sprite
-    protected abstract void doDrawing(Graphics g);
     
 
     private void gameOver(Graphics g) {
@@ -77,9 +73,6 @@ public abstract class AbstractBoard extends JPanel {
         g.drawString(message, (d.width - fontMetrics.stringWidth(message)) / 2, d.width / 2);
     }
 
-//    private void update() {
-//        gameLogic();
-//    }
 
     //chamada pelo update e deve ser implementada
     protected abstract void update();
@@ -99,21 +92,17 @@ public abstract class AbstractBoard extends JPanel {
     private class TAdapter extends KeyAdapter {
         @Override
         public void keyReleased(KeyEvent e) {
-            player.keyReleased(e);
-
-            outrosListenersEventosKeyRealeased(e);
+            ControlsKeyRealeased(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            player.keyPressed(e);
-            
-            outrosListenersEventosKeyPressed(e);
+            ControlsKeyPressed(e);
         }
     }
 
-    private void outrosListenersEventosKeyRealeased(KeyEvent e){};
-    private void outrosListenersEventosKeyPressed(KeyEvent e){};
+    protected void ControlsKeyRealeased(KeyEvent e){};
+    protected void ControlsKeyPressed(KeyEvent e){};
     
 }
 
