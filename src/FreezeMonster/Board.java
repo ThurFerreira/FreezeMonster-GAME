@@ -8,16 +8,7 @@ import FreezeMonster.sprite.Ray;
 import FreezeMonster.framework.AbstractBoard;
 import FreezeMonster.framework.Sprite;
 
-import javax.swing.JPanel;
-import javax.swing.Timer;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,25 +18,19 @@ import java.util.Random;
 public class Board extends AbstractBoard {
 
     Settings commons = Settings.getInstance();
-    private Dimension d; //AbstractBoard
-    private List<Monster> monsters; //AbstractBoard SUPER
-    private Player player; //AbstractBoard
+    private List<Monster> monsters;
+    private Player player;
     private Ray ray;
-    EntityFactory entityFactory = new EntityFactory(); //AbstractBoard SUPER
+    EntityFactory entityFactory = new EntityFactory();
 
-    private boolean inGame = true; //AbstractBoard
-    private String message = "Game Over"; //AbstractBoard
-
-    private Timer timer; //AbstractBoard
-
-    public Board() { //AbstractBoard
+    public Board() {
         initBoard();
         gameInit();
     }
 
     //LISTENER, CREATE ETITIES
     @Override
-    protected void initBoard() { //AbstractBoard
+    protected void initBoard() {
         monsters = new ArrayList<>();
     
         for (int i = 0; i < commons.NUMBER_OF_MONSTERS_TO_DESTROY; i++) {
@@ -63,16 +48,6 @@ public class Board extends AbstractBoard {
         ray.die();
     }
 
-    //Start gameCycle
-    // private void gameInit() { //AbstractBoard
-    //     addKeyListener(new TAdapter());
-    //     setFocusable(true);
-    //     d = new Dimension(commons.BOARD_WIDTH, commons.BOARD_HEIGHT);
-        
-    //     setBackground(Color.GREEN.darker());
-    //     timer = new Timer(commons.DELAY, new GameCycle());
-    //     timer.start();
-    // }
 
     private void drawMonsters(Graphics g) { 
         for (Monster monster : monsters) {
@@ -95,7 +70,8 @@ public class Board extends AbstractBoard {
         if (player.isDying()) {
 
             player.die();
-            inGame = false;
+            super.inGame = false;
+            System.out.println("game over, in game should be false: " + inGame);
         }
     }
 
@@ -123,10 +99,10 @@ public class Board extends AbstractBoard {
     //desenha todas as entidades
     @Override
     protected void doDrawing(Graphics g) { //AbstracBoard
-            drawMonsters(g);
-            drawPlayer(g);
-            drawRay(g);
-            drawGosma(g);
+        drawMonsters(g);
+        drawPlayer(g);
+        drawRay(g);
+        drawGosma(g);
     }
 
     //metodo que atualiza as entidades, variaveis  e verifica colisoes
@@ -135,7 +111,7 @@ public class Board extends AbstractBoard {
 
         if (deaths == commons.NUMBER_OF_MONSTERS_TO_DESTROY) {
 
-            inGame = false;
+            super.inGame = false;
             timer.stop();
             message = "Game won!";
         }
@@ -264,8 +240,6 @@ public class Board extends AbstractBoard {
             }
         }
     }
-
-    
 
     @Override
     protected void ControlsKeyPressed(KeyEvent e) {

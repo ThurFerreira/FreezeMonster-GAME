@@ -19,9 +19,9 @@ public abstract class AbstractBoard extends JPanel {
     private Dimension d;
 
     protected int deaths = 0;
-    private boolean inGame = true;
-    private String message = "Game Over";
-    private Timer timer;
+    protected boolean inGame = true;
+    protected String message = "Game Over";
+    protected Timer timer;
 
     //funcao que cria entidades
     protected abstract void initBoard();
@@ -45,9 +45,11 @@ public abstract class AbstractBoard extends JPanel {
         doDrawing(g);
 
         if(inGame){
+            System.out.println("still in game");
             doDrawing(g);
         }
         else{
+            System.out.println("not in game on abstract board");
             if (timer.isRunning()) {
                 timer.stop();
             }
