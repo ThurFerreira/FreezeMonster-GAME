@@ -71,7 +71,6 @@ public class Board extends AbstractBoard {
 
             player.die();
             super.inGame = false;
-            System.out.println("game over, in game should be false: " + inGame);
         }
     }
 

@@ -45,11 +45,9 @@ public abstract class AbstractBoard extends JPanel {
         doDrawing(g);
 
         if(inGame){
-            System.out.println("still in game");
             doDrawing(g);
         }
         else{
-            System.out.println("not in game on abstract board");
             if (timer.isRunning()) {
                 timer.stop();
             }
