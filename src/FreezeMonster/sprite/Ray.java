@@ -1,5 +1,6 @@
 package FreezeMonster.sprite;
 
+import FreezeMonster.Settings;
 import framework.Sprite;
 
 import javax.swing.ImageIcon;
@@ -11,16 +12,17 @@ public class Ray extends Sprite {
     }
 
     public Ray(int x, int y, int dx, int dy) {
-        this.dx = dx;
-        this.dy = dy;
+        this.dx = dx * 2;
+        this.dy = dy * 2;
 
         initShot(x, y);
     }
 
     private void initShot(int x, int y) {
+        var set = Settings.getInstance();
 
         var shotImg = "src/images/ray.png";
-        var ii =  new ImageIcon(new ImageIcon(shotImg).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+        var ii =  new ImageIcon(new ImageIcon(shotImg).getImage().getScaledInstance(set.RAY_SIZE, set.RAY_SIZE, Image.SCALE_SMOOTH));
         setImage(ii.getImage());
 
         int SPACE = 6;
